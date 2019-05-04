@@ -145,7 +145,7 @@ def main():
     weightFile = open('knapsack/' + weightFileName, "r")
     valuesFile = open('knapsack/' + valuesFileName, "r")
 
-    cap = int(capFile.readline())       # I'm making this an int, then back to str so it prints on one line...
+    cap = int(capFile.readline())
     weight = weightFile.readlines()
     values = valuesFile.readlines()
 

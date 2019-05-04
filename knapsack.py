@@ -15,12 +15,33 @@ def main():
 
     cap = int(capFile.readline())       # I'm making this an int, then back to str so it prints on one line...
     weight = weightFile.readlines()
+    
+    
+    for i in range(len(weight)):
+        string = weight[i].strip()
+        integer = int(string, 10)
+        weight[i] = integer
+
+        
     values = valuesFile.readlines()
+
+    for i in range(len(values)):
+        string = values[i].strip()
+        integer = int(string, 10)
+        values[i] = integer
+
+    print(weight)
+    print(values)
+
 
     print('Knapsack capacity = ' + str(cap) + '.', end=' ')
     print('Total number of items = ' + str(len(values)))
 
+    ####### 1.a #######
+    
+
     # Everything from here down just prints, nothing else for now.
+
 
     print('Traditional Dynamic Programming Optimal value: ')
     print('Traditional Dynamic Programming Optimal subset: ')

@@ -159,6 +159,8 @@ def main():
         integer = int(string, 10)
         values[i] = integer
 
+
+    print()
     print('Knapsack capacity =', cap, '.', end=' ')
     print('Total number of items =', (len(values)))
     print()
@@ -181,9 +183,14 @@ def main():
     print('Greedy Approach Optimal subset:', subset)
     print('Greedy Approach Time taken: ', end, 'ns')
 
+    print()
+
+    # print('Traditional Dynamic Programming Optimal value: ')
+    # print('Traditional Dynamic Programming Optimal subset: ')
+    # print('Traditional Dynamic Programming Time Taken: ')
+
     start = time.time_ns()
     subset, value = greedyHeap(cap, weight, values)
-    #greedyHeap(cap, weight, values)
     end = time.time_ns() - start
 
     print()

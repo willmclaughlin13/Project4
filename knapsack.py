@@ -1,5 +1,7 @@
 import time
+import timeit
 from collections import namedtuple
+import matplotlib.pyplot as plt
 
 class maxHeap:
     def __init__(self, array=None):
@@ -126,9 +128,27 @@ def greedyHeap(cap, weight, values):
             totalWeight += i.weight
             totalValue += i.value
 
+def graph(list1a, list1b, list2a, list2b):
+    label1 = "in-built sort"
+    label2 = "max-heap"
+    ax = plt.axes()
+    title = 'Greedy Approach Comparison: '
+    plt.title(title)
+
+    maxX = max(max(list1a), max(list2a)) + 1
+    maxY = max(max(list1b), max(list2b)) + 1
+
+    ax.set(xlim=(0, maxX), ylim=(0, maxY))
+    ax.plot(list1a, list1b, 'o', label=label1)
+    ax.plot(list2a, list2b, 'o', label=label2)
+
+    plt.legend()
+    plt.xlabel("No. Items")
+    plt.ylabel("Time Taken (ms)")
+    plt.show()
+
 
 def main():
-
     value = 0
     subset = []
 
@@ -159,6 +179,7 @@ def main():
         integer = int(string, 10)
         values[i] = integer
 
+    k = 1000000 #Time to milliseconds
 
     print()
     print('Knapsack capacity =', cap, '.', end=' ')
@@ -175,13 +196,13 @@ def main():
     #print('Space-efficient Dynamic Programming Optimal subset: ')
     #print('Space-efficient Dynamic Programming Time taken: ')
 
-    start = time.time_ns()
+    start = timeit.default_timer()
     subset, value = greedySort(cap, weight, values)
-    end = time.time_ns() - start
+    end = (timeit.default_timer() - start) * k
 
     print('Greedy Approach Optimal value: ', value)
     print('Greedy Approach Optimal subset:', subset)
-    print('Greedy Approach Time taken: ', end, 'ns')
+    print('Greedy Approach Time taken: ', end, 'ms')
 
     print()
 
@@ -189,17 +210,61 @@ def main():
     # print('Traditional Dynamic Programming Optimal subset: ')
     # print('Traditional Dynamic Programming Time Taken: ')
 
-    start = time.time_ns()
+
+    start = timeit.default_timer()
     subset, value = greedyHeap(cap, weight, values)
-    end = time.time_ns() - start
+    end = (timeit.default_timer() - start) * k
 
     print()
 
     print('Heap-based Greedy Approach Optimal value: ', value)
     print('Heap-based Greedy Approach Optimal subset: ', subset)
-    print('Heap-based Greedy Approach Time taken: ', end, 'ns')
+    print('Heap-based Greedy Approach Time taken: ', end, 'ms')
 
     #Do some graphing
 
+    listNoItemsA = []
+    listTimesA = []
+    listNoItemsB = []
+    listTimesB = []
+    for fileNo in range(9):
+
+        capFileName = "p0"+str(fileNo)+"_c.txt"
+        weightFileName = "p0"+str(fileNo)+"_w.txt"
+        valuesFileName = "p0"+str(fileNo)+"_v.txt"
+
+        capFile = open('knapsack/' + capFileName, "r")
+        weightFile = open('knapsack/' + weightFileName, "r")
+        valuesFile = open('knapsack/' + valuesFileName, "r")
+
+        cap = int(capFile.readline())
+        weight = weightFile.readlines()
+        values = valuesFile.readlines()
+
+        for i in range(len(weight)):
+            string = weight[i].strip()
+            integer = int(string, 10)
+            weight[i] = integer
+
+        for i in range(len(values)):
+            string = values[i].strip()
+            integer = int(string, 10)
+            values[i] = integer
+
+
+
+        listNoItemsA.append(len(values))
+        start = timeit.default_timer()
+        greedySort(cap, weight, values)
+        end = (timeit.default_timer() - start) * k
+        listTimesA.append(end)
+
+        listNoItemsB.append(len(values))
+        start = timeit.default_timer()
+        greedyHeap(cap, weight, values)
+        end = (timeit.default_timer() - start) * k
+        listTimesB.append(end)
+
+    graph(listNoItemsA, listTimesA, listNoItemsB, listTimesB)
 
 main()

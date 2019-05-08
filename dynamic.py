@@ -7,6 +7,7 @@ K = 0
 WEIGHTS = []
 VALUES = []
 
+
 class Node(object):
 
     def __init__(self, data=None, next_node=None, key=None):
@@ -204,8 +205,6 @@ def dynamicSort(cap, weight, values):
         print()
         for j in range(len(F[i])):
             print(F[i][j], end=' ')
-
-
 
     print()
     print()

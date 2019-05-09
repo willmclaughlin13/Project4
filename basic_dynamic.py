@@ -24,7 +24,7 @@ def basicDynamicMethod(weights, values, cap):
                 else:
                     dynProgTable[i][j] = dynProgTable[i-1][j]
     end = time.time()
-    print("Time taken to build the table with basic dynamic programing approach: ", end - start)
+    print("Time taken to build the table with basic dynamic programing approach: %.5f" % end - start)
 
     ## backtrace portion ##
 
@@ -45,5 +45,5 @@ def basicDynamicMethod(weights, values, cap):
             x = x - 1
     end = time.time()
 
-    print("Time taken to backtrace with basic dynamic programing approach: ", end-start)
+    print("Time taken to backtrace with basic dynamic programing approach: %.5f" % end-start)
     print("Optimal subset is: ", optimalSubset)

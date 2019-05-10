@@ -40,9 +40,16 @@ class LinkedList(object):
 
     def insert(self, data, key):
         new_node = Node(data)
+
         new_node.set_key(key)
-        new_node.set_next(self.head)
-        self.head = new_node
+        if self.head is None:
+            self.head = new_node
+            return
+        last = self.head
+
+        while (last.next_node):
+            last = last.next_node
+        last.next_node = new_node
 
     def size(self):
         current = self.head
@@ -90,11 +97,13 @@ class LinkedList(object):
         current = self.head
         count = 0
         while current is not None:
+
             if count % (N+1) == 0:
                 print()
+            count += 1
+
             print(current.get_data(), end=' ')
             current = current.get_next()
-            count += 1
         print()
         print()
 
@@ -141,6 +150,28 @@ def hashInsert(i, j, val):
     global hash_table
     hash_table.insert(val, hash_key)
 
+def insertZeros(rI, rJ, lenA, lenB):
+    rI = rI[::-1]
+    rJ = rJ[::-1]
+
+    rIZeros = lenA - len(rI)
+    rJZeros = lenB - len(rJ)
+    if rIZeros < 0:
+        rIZeros = 0
+    if rJZeros < 0:
+        rJZeros = 0
+
+    for i in range(rIZeros):
+        rI += '0'
+
+    for i in range(rJZeros):
+        rJ += '0'
+
+    rI = rI[::-1]
+    rJ = rJ[::-1]
+
+    return rI, rJ
+
 
 def myHash(i, j):
     bN = math.log(N+1, 2)
@@ -148,8 +179,16 @@ def myHash(i, j):
     bN = math.ceil(bN)
     bW = math.ceil(bW) # Use these two values + 1 for total length of binary string?
 
-    rI = dec_to_bin(i)
-    rJ = dec_to_bin(j)
+#    print('bN: ', bN)
+#    print('bW: ', bW)
+
+    rI = str(dec_to_bin(i))
+    rJ = str(dec_to_bin(j))
+
+    rI, rJ = insertZeros(rI, rJ, bN, bW)
+
+#    print('rI: ', rI)
+#    print('rJ: ', rJ)
 
     rIJ = [1]
 
@@ -161,8 +200,10 @@ def myHash(i, j):
         rIJ.append(int(rJ[i]))
 
     s = ''.join(map(str, rIJ))
-    rIJ = int(s)
-
+    rIJ = int(s, 2)
+#    print("rIJ: ", rIJ)
+#    print("K: ", K)
+    print("Final Value: ", rIJ % K)
     return rIJ % K
 
 
@@ -176,8 +217,11 @@ def dynamicSort(cap, weight, values):
     global VALUES
     VALUES = values
     global K
-    K = int((N*W) / 2)
+    K = int(2*(N*W))
     global hash_table
+
+    print(N)
+    print(W)
 
     for i in range(len(values)):
         F.append([])
@@ -192,13 +236,16 @@ def dynamicSort(cap, weight, values):
         F[i][0] = 0
         #F[0][i] = 0
 
+
     #hash_table.setZeros()
+
+
+    hash_table.printHash()
 
     retVal = MFKnapsack(len(values) - 1, cap)
     retVal2 = MFKnapsack2(len(values) - 1, cap)
 
     hash_table.printHash()
-    print()
 
     for i in range(len(F)):
         print()

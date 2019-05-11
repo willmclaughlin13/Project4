@@ -1,6 +1,4 @@
-import math
-import time
-
+import sys
 
 def basicDynamicMethod(weights, values, cap):
 
@@ -9,12 +7,13 @@ def basicDynamicMethod(weights, values, cap):
     values.insert(0,0)
     m = cap+1
     n = len(values)
+    val = 0
 
     # initalize table
     dynProgTable = [[-1] * m for i in range(n)]
 
+
     # populate dynamic programing table with the max values at each stage
-    start = time.time()
     for j in range(m):
         for i in range(n):
             if(i == 0 or j == 0):
@@ -24,18 +23,16 @@ def basicDynamicMethod(weights, values, cap):
                     dynProgTable[i][j] = max(dynProgTable[i-1][j] , values[i] + dynProgTable[i-1][j-weights[i] ] )
                 else:
                     dynProgTable[i][j] = dynProgTable[i-1][j]
-    end = time.time()
-    print("Time taken to build the table with basic dynamic programing approach: %.5f" % end - start)
+            val = dynProgTable[i][j]
 
     ## backtrace portion ##
 
     optimalSubset = []
 
-    x = n-1 # our items
-    y = m-1 # our capacity
+    x = n - 1 # our items
+    y = m - 1 # our capacity
 
-    start = time.time()
-    while(x>0 or y>0):
+    while(x>0 and y>0):
         current = dynProgTable[x][y]
         previous = dynProgTable[x-1][y]
         if(current > previous):
@@ -44,7 +41,10 @@ def basicDynamicMethod(weights, values, cap):
             x = x - 1
         else:
             x = x - 1
-    end = time.time()
 
-    print("Time taken to backtrace with basic dynamic programing approach: %.5f" % end-start)
-    print("Optimal subset is: ", optimalSubset)
+    # print("Optimal subset is: ", optimalSubset)
+    optimalSubset.sort()
+    weights.pop(0)
+    values.pop(0)
+    #size = sys.getsizeof(dynProgTable)
+    return optimalSubset, val, m*n

@@ -1,4 +1,5 @@
 import math
+import sys
 
 N = 0
 W = 0
@@ -131,7 +132,7 @@ def getSubset(i, j):
 
     if currentNode.get_data() > nextNode.get_data():
         FINAL_IDX.append(i+1)
-        getSubset(i, j - WEIGHTS[i])
+        getSubset(i-1, j - WEIGHTS[i])
     else:
         getSubset(i-1, j)
 
@@ -193,10 +194,7 @@ def myHash(i, j):
 
     s = ''.join(map(str, rIJ))
     rIJ = int(s, 2)
-    # print("rIJ: ", rIJ)
-    # print("K: ", K)
-    # print(rIJ % K)
-    # print()
+
     return rIJ % K
 
 
@@ -219,7 +217,7 @@ def dynamicSort(cap, weight, values):
     global VALUES
     VALUES = values
     global K
-    K = int(W/2)
+    K = int((N*W)/5)
     global hash_table
     hash_table = [None] * K
     global FINAL_IDX
@@ -237,20 +235,4 @@ def dynamicSort(cap, weight, values):
     getSubset(len(values) - 1, cap)
     FINAL_IDX = FINAL_IDX[::-1]
 
-    # for i in hash_table:
-    #     if i is not None:
-    #         i.printHash()
-
-    FINAL_IDX = unique(FINAL_IDX)
-
-    sum = 0
-    for i in FINAL_IDX:
-        sum += values[i-1]
-
-    print(FINAL_IDX)
-    print(retVal)
-    if retVal == sum:
-        print("OPTIMAL!")
-    else:
-        print("NOT OPTIMAL!!")
-    return FINAL_IDX, retVal
+    return FINAL_IDX, retVal, K

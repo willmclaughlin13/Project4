@@ -1,6 +1,7 @@
 import math
 import time
 
+
 def basicDynamicMethod(weights, values, cap):
 
     # This is required to make the formula in the for loops to work

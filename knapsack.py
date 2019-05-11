@@ -2,6 +2,7 @@ import time
 import matplotlib.pyplot as plt
 import greedy
 import dynamic
+import basic_dynamic
 
 def graph(list1a, list1b, list2a, list2b):
     label1 = "in-built sort"
@@ -30,9 +31,9 @@ def main():
     #weightFileName  = input("Enter file containing the weights: ")
     #valuesFileName = input("Enter file containing the values: ")
 
-    capFileName = "p11_c.txt"
-    weightFileName = "p11_w.txt"
-    valuesFileName = "p11_v.txt"
+    capFileName = "p07_c.txt"
+    weightFileName = "p07_w.txt"
+    valuesFileName = "p07_v.txt"
 
     capFile = open('knapsack/' + capFileName, "r")
     weightFile = open('knapsack/' + weightFileName, "r")
@@ -53,39 +54,40 @@ def main():
         values[i] = integer
 
     print()
-    print('Knapsack capacity =', cap, '.', end=' ')
+    print('Knapsack capacity = ' + str(cap) + '. ', end='')
     print('Total number of items =', (len(values)))
     print()
 
-    # Everything from here down just prints, nothing else for now.
+
+    #print('Traditional Dynamic Programming Optimal value: ', value)
+    #print('Traditional Dynamic Programming Optimal subset: ', subset)
+    #print('Traditional Dynamic Programming Time Taken: ', end, ns)
 
     start = time.perf_counter_ns()
-    #subset, value = dynamic.dynamicSort(cap, weight, values)
-    dynamic.dynamicSort(cap, weight, values)
+    subset, value = dynamic.dynamicSort(cap, weight, values)
     end = (time.perf_counter_ns() - start)
 
-    #print('Traditional Dynamic Programming Optimal value: ')
-    #print('Traditional Dynamic Programming Optimal subset: ')
-    #print('Traditional Dynamic Programming Time Taken: ')
 
-    #print('Space-efficient Dynamic Programming Optimal value: ', value)
-    #print('Space-efficient Dynamic Programming Optimal subset: ', subset)
-    #print('Space-efficient Dynamic Programming Time taken: ', end, 'ns')
-
-    # start = time.perf_counter_ns()
-    # subset, value = greedy.greedySort(cap, weight, values)
-    # end = (time.perf_counter_ns() - start)
+    # print('Space-efficient Dynamic Programming Optimal value: ', value)
+    # print('Space-efficient Dynamic Programming Optimal subset: ', subset)
+    # print('Space-efficient Dynamic Programming Time taken: ', end, 'ns')
     #
+    # print()
+
+    start = time.perf_counter_ns()
+    subset, value = greedy.greedySort(cap, weight, values)
+    end = (time.perf_counter_ns() - start)
+
     # print('Greedy Approach Optimal value: ', value)
     # print('Greedy Approach Optimal subset:', subset)
     # print('Greedy Approach Time taken: ', end, 'ns')
     #
     # print()
-    #
-    # start = time.perf_counter_ns()
-    # subset, value = greedy.greedyHeap(cap, weight, values)
-    # end = (time.perf_counter_ns() - start)
-    #
+
+    start = time.perf_counter_ns()
+    subset, value = greedy.greedyHeap(cap, weight, values)
+    end = (time.perf_counter_ns() - start)
+
     # print()
     #
     # print('Heap-based Greedy Approach Optimal value: ', value)

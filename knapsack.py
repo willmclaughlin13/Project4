@@ -1,3 +1,7 @@
+# William McLaughlin
+# Evan LeValley
+
+
 import time
 import matplotlib.pyplot as plt
 import greedy
@@ -6,6 +10,7 @@ import math
 import basic_dynamic
 
 
+# This function generates the first graph
 def graphDynamic(time1a, time1b, space1a, space1b):
     label1 = "Traditional Dynamic"
     label2 = "Space-efficient Dynamic"
@@ -20,6 +25,7 @@ def graphDynamic(time1a, time1b, space1a, space1b):
     plt.show()
 
 
+# This function generates the second graph
 def graphGreedy(noItems, items2a, items2b):
     label1 = "in-built sort"
     label2 = "max-heap"
@@ -40,6 +46,8 @@ def graphGreedy(noItems, items2a, items2b):
     plt.show()
 
 
+# This function generates all 16 graphs, 2 for
+# each input file.
 def graph():
     listNoItems = []
     listtimes1A = []
@@ -65,6 +73,7 @@ def graph():
 
         # This will shrink the data input considerably.
         # We lose a little precision, but gain a lot of speed
+        # When the smallest value is at least 1000, we reduce it
         for i in range(len(weight)):
            string = weight[i].strip()
            integer = int(string, 10)
@@ -73,7 +82,7 @@ def graph():
         smallLen = len(str(min(weight)))
 
         if smallLen >= 4:
-            valToDivide = (smallLen - 2) * 10
+            valToDivide =  pow(10, (smallLen - 2))
             cap /= valToDivide
             cap = math.ceil(cap)
 
@@ -86,7 +95,7 @@ def graph():
             integer = int(string, 10)
             values[i] = integer
 
-        print(str(fileNo)+"     Running Task A1")
+        print(str(fileNo)+"     Running Task 1A")
 
         listNoItems.append(len(values))
         start = time.perf_counter_ns()
@@ -95,20 +104,20 @@ def graph():
         listtimes1A.append(end)
         listSpace1A.append(space)
 
-        print(str(fileNo) + "     Running Task A2")
+        print(str(fileNo) + "     Running Task 1B")
         start = time.perf_counter_ns()
         garbage, garbage, space = dynamic.dynamicSort(cap, weight, values)
         end = (time.perf_counter_ns() - start)
         listtimes1B.append(end)
         listSpace1B.append(space)
 
-        print(str(fileNo) + "     Running Task B1")
+        print(str(fileNo) + "     Running Task 2A")
         start = time.perf_counter_ns()
         greedy.greedySort(cap, weight, values)
         end = (time.perf_counter_ns() - start)
         listTimes2A.append(end)
 
-        print(str(fileNo) + "     Running Task B2")
+        print(str(fileNo) + "     Running Task 2B")
         start = time.perf_counter_ns()
         greedy.greedyHeap(cap, weight, values)
         end = (time.perf_counter_ns() - start)
@@ -117,6 +126,8 @@ def graph():
     graphDynamic(listtimes1A, listtimes1B, listSpace1A, listSpace1B)
     graphGreedy(listNoItems, listTimes2A, listTimes2B)
 
+
+# Error trapping for bad file input
 def fileCheck(fn):
     try:
         open(fn, "r")
@@ -124,6 +135,8 @@ def fileCheck(fn):
     except IOError:
         print("Error: File not found.")
         return 0
+
+
 
 def main():
 
@@ -175,7 +188,7 @@ def main():
     smallLen = len(str(min(weight)))
 
     if smallLen >= 4:
-        valToDivide = (smallLen - 2) * 10
+        valToDivide =  pow(10, (smallLen - 2))
         cap /= valToDivide
         cap = math.ceil(cap)
 
@@ -230,15 +243,10 @@ def main():
     print('Heap-based Greedy Approach Optimal subset: ', subset)
     print('Heap-based Greedy Approach Time taken: ', end, 'ns')
 
-    exitProg = False
-
     print("\n\n")
-    while not exitProg:
-        graphPrompt = input("Run graphs on all inputs? (Y/N): ")
-        if graphPrompt == 'Y' or graphPrompt == 'y':
-            graph()
-        if graphPrompt == 'N' or graphPrompt == 'n':
-            exitProg = True
 
+    graphPrompt = input("Run graphs on all inputs? (Y/N): ")
+    if graphPrompt == 'Y' or graphPrompt == 'y':
+        graph()
 
 main()

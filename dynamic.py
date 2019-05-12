@@ -198,15 +198,6 @@ def myHash(i, j):
     return rIJ % K
 
 
-def unique(list1):
-    uniqueList = []
-
-    for i in list1:
-        if i not in uniqueList:
-            uniqueList.append(i)
-    return uniqueList
-
-
 def dynamicSort(cap, weight, values):
     global N
     N = cap
@@ -217,7 +208,7 @@ def dynamicSort(cap, weight, values):
     global VALUES
     VALUES = values
     global K
-    K = int((N*W)/5)
+    K = int(W/2)
     global hash_table
     hash_table = [None] * K
     global FINAL_IDX

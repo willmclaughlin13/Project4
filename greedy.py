@@ -1,17 +1,22 @@
 from collections import namedtuple
 
+
+# This is our heap class
 class maxHeap:
     def __init__(self, array=None):
         self._heap = []
 
-        if array is not None:
+        if array is not None:  # The constructor, builds the heap from a list
             for i in array:
                 self.insert(i)
 
+    # Insert takes value to insert as input, appends it to the array, then
+    # calls sift up to find it's place in the heap
     def insert(self, value):
         self._heap.append(value)
         _sift_up(self._heap, len(self) - 1)
 
+    # Pop removes and returns the maximum value at the root
     def pop(self):
         _swap(self._heap, len(self) - 1, 0)
         i = self._heap.pop()
@@ -21,19 +26,13 @@ class maxHeap:
     def __len__(self):
         return len(self._heap)
 
-    def print(self, idx=1, indent=0):
-        print("\t" * indent, f"{self._heap[idx - 1].ratio}")
-        left, right = 2 * idx, 2 * idx + 1
-        if left <= len(self):
-            self.print(left, indent=indent + 1)
-        if right <= len(self):
-            self.print(right, indent=indent + 1)
 
-
+# Swap the two values in the list
 def _swap(L, i, j):
     L[i], L[j] = L[j], L[i]
 
 
+# Find the new value's place in the heap
 def _sift_up(heap, idx):
     parent_idx = (idx - 1) // 2
 
@@ -47,6 +46,7 @@ def _sift_up(heap, idx):
         _sift_up(heap, parent_idx)
 
 
+# After removing the root, find a new one and sift up
 def _siftDown(heap, idx):
     child_idx = 2 * idx + 1
 
@@ -63,6 +63,8 @@ def _siftDown(heap, idx):
         _siftDown(heap, child_idx)
 
 
+# takes an array as input, turns it into a heap,
+# and returns the sorted values as a list.
 def heap_sort(array):
     heap = maxHeap(array)
     sorted_arr = []
@@ -72,6 +74,8 @@ def heap_sort(array):
 
     return sorted_arr
 
+
+# Knapsack algorithm using the built-in list
 def greedySort(cap, weight, values):
     ratios = []
     subset = []
@@ -97,6 +101,7 @@ def greedySort(cap, weight, values):
             totalValue += values[i]
 
 
+# Knapsack algorithm using our heap class
 def greedyHeap(cap, weight, values):
     myHeap = namedtuple("myHeap", "weight value idx ratio")
     items = []
